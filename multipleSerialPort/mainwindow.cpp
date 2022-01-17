@@ -20,13 +20,10 @@ MainWindow::MainWindow(QWidget *parent)
     serialPort2.open("COM8");
 
 
-    timer_pack1 = new QTimer(this);
-    timer_pack2 = new QTimer(this);
+    test_send_timer = new QTimer(this);
 
-    connect(timer_pack1,SIGNAL(timeout()),this,SLOT(test_com1()));
-    timer_pack1->start(1000);
-    connect(timer_pack2,SIGNAL(timeout()),this,SLOT(test_com2()));
-    timer_pack2->start(500);
+    connect(test_send_timer,SIGNAL(timeout()),this,SLOT(test_com1()));
+    test_send_timer->start(1000);
 }
 
 MainWindow::~MainWindow()
@@ -44,21 +41,19 @@ void MainWindow::serialPortReadTransition2()
 }
 
 
-void MainWindow::test_com1()
+void MainWindow::test_send_timer()
 {
     if( testOrder == 0 )
     {
         testOrder = 1;
         serialPort1.write((const char*)(test_pack.testArray),sizeof(test_pack.testArray));
     }
-}
-
-void MainWindow::test_com2()
-{
-    if( testOrder == 1 )
+    else if( testOrder == 0 )
     {
         testOrder = 0;
         serialPort2.write((const char*)(test_pack2.testArray),sizeof(test_pack2.testArray));
     }
-
+    else{
+        testOrder = 0;
+    }
 }
