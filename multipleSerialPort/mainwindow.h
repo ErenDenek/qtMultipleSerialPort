@@ -20,7 +20,7 @@ public:
 
     int count = 0;
     int count1 = 1;
-    QTimer *timer_pack1,*timer_pack2;
+    QTimer *test_send_timer;
 
 private:
     Ui::MainWindow *ui;
